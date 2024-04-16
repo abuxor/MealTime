@@ -17,15 +17,15 @@ export default function CollectionRecipeActions({ collection }: CollectionRecipe
     return <DropdownMenu.Root>
         <DropdownMenu.Trigger>
             <Button value="options" variant="soft" size="3">
-                Options <ChevronDownIcon className="w-4 h-4" />
+                Add Recipe <ChevronDownIcon className="w-4 h-4" />
             </Button>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
             <DropdownMenu.Item onClick={() => { router.push(createRecipeLink(collection.name, collection.id)) }} >
-                Create new recipe on collection
+                Create Recipe on Collection
             </DropdownMenu.Item>
             {/* <DropdownMenu.Item onClick={() => { alert("Coming soon") }} >
-                Add existing recipe to collection
+                Add existing Recipe
             </DropdownMenu.Item> */}
         </DropdownMenu.Content>
     </DropdownMenu.Root>
