@@ -101,3 +101,12 @@ services:
       - ./services/recipe-importer:/app
     ports:
       - 8082:80
+
+  mealplan-insight:
+    build:
+      context: ./services/mealplan-insight
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./services/mealplan-insight:/app
+    ports:
+      - 8083:80
