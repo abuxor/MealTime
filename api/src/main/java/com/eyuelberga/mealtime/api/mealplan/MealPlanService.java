@@ -22,4 +22,6 @@ public interface MealPlanService {
     List<MealPlan> getAllInRange(Date start, Date end);
 
     MealPlanStatsResponse getSumInRange(Date start, Date end);
+
+    MealPlanInsight generateInsight(String prompt);
 }
