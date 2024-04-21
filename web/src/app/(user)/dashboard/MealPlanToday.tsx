@@ -7,7 +7,9 @@ import Link from 'next/link';
 import { ArrowRightIcon, CalendarIcon } from "@/components/icons";
 import { DayView } from "@/components/calendar";
 import { EmptyPlaceholder } from "@/components/empty-placeholder";
-function Banner({ children }: { children: ReactNode }) {
+import React from "react";
+
+function Banner({ children }: { children: React.ReactNode }) {
   return <header className="text-sm uppercase text-slate-500 bg-slate-50 rounded-sm font-semibold p-4">{children}</header>
 }
 
