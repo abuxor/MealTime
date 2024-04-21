@@ -5,10 +5,17 @@ import { createLookup } from "@/helpers";
 import { RecipeResponse } from "./recipes";
 import { AxiosInstance } from "axios";
 export type MealType = typeof MEAL_TYPES[keyof typeof MEAL_TYPES];
+
 export interface MealPlanDto {
     date: string;
     type: MealType;
     recipe: string;
+}
+
+
+export interface MealPlanInsightDto {
+    prompt: string;
+
 }
 
 export interface Nutrition {
@@ -93,6 +100,10 @@ export async function stats(q: any, base: AxiosInstance = AxiosServerSide) {
 
 export async function create(mealPlan: MealPlanDto, base: AxiosInstance = AxiosServerSide) {
     return await base.post("meal-plans", mealPlan);
+}
+
+export async function generateInsight(mealPlanInsight: MealPlanInsightDto, base: AxiosInstance = AxiosServerSide) {
+    return await base.post("meal-plans/insight", mealPlanInsight);
 }
 
 export async function update(id: string, mealPlan: MealPlanDto, base: AxiosInstance = AxiosServerSide) {
