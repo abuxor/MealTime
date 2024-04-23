@@ -18,7 +18,7 @@ export default function MealPlanToday({session, mealPlans}) {
   return (<>
    <div className="relative p-4 sm:p-6 overflow-hidden mb-2">
         <div className="relative">
-          <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-1"> 👋 {timeOfDayWelcome()}, {session?.user?.name}!</h1>
+          <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-1"> 👋 {timeOfDayWelcome()}, {session?.user?.name.split(" ")[0]}!</h1>
         </div>
       </div>
 
