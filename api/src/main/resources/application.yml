@@ -55,3 +55,5 @@ server:
 services:
   recipe-importer:
     endpoint: ${RECIPE_IMPORTER_SERVICE_ENDPOINT}
+  mealplan-insight:
+    endpoint: ${MEALPLAN_INSIGHT_SERVICE_ENDPOINT}

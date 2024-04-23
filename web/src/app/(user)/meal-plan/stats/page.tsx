@@ -19,7 +19,8 @@ import useAxios from "@/hooks/useAxios";
 import { useAsync } from "@/hooks";
 import { MealPlanStatsResponse, stats } from "@/api/mealPlan";
 import { useCallback, useEffect, useState } from "react";
-import { addDays, endOfDay, endOfMonth, endOfWeek, format, startOfMonth, startOfWeek } from "date-fns";
+import { addDays, endOfDay, endOfMonth, endOfWeek, format, startOfMonth, startOfWeek, parse } from "date-fns";
+import InsightDialog from "./InsightDialog";
 
 ChartJS.register(
     autocolors,
@@ -48,7 +49,7 @@ export default function Page({ }: any) {
     const searchParams = useSearchParams();
     const view = searchParams?.get("view");
     const date = searchParams?.get("date");
-    const title =  view && date?`${getView(view)} Meal Plan Stats (${getViewDateRange(new Date(date), view)})`.trim():"";
+    const title =  view && date?`${getView(view)} Meal Plan Stats (${getViewDateRange(parse(date, 'yyyy-MM-dd', new Date()), view)})`.trim():"";
     const AxiosClientSide = useAxios();
     const { loading, request: requestFunc, data, error } = useAsync<MealPlanStatsResponse>(async (params: any) => (await stats(params, AxiosClientSide)))
     const request = useCallback(requestFunc, [searchParams]);
@@ -59,7 +60,7 @@ export default function Page({ }: any) {
         switch (view) {
             case "day":
                 start = fmt(date);
-                end = fmt(addDays(date, 1));
+                end = fmt(date);
                 break;
             case "week":
                 start = fmt(startOfWeek(date));
@@ -78,13 +79,14 @@ export default function Page({ }: any) {
             router.replace("/404");
         }
         else {
-            refetch(view, new Date(date));
+            refetch(view, parse(date, 'yyyy-MM-dd', new Date()));
         }
     }, [searchParams, refetch, router]);
     const [nutritionOption, setNutritionOption] = useState<string>("calories");
     return (
         <Card className="min-h-screen" isLoading={loading}>
             <CardHeader title={title} textSize='3xl'>
+            <InsightDialog data={{view,date,...data}}/>
             </CardHeader>
             {data ? <CardBody>
                 {data.total ? <div className="bg-gray-50 p-4 grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 border">
