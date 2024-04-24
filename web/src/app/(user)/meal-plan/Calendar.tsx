@@ -1,6 +1,6 @@
 "use client"
 import { DayView, MealPlanProps, MonthView, WeekView } from "@/components/calendar";
-import { lookup, deleteById, MealType } from "@/api/mealPlan";
+import { lookup, deleteById, MealType, create } from "@/api/mealPlan";
 import { Card } from "@/components/card";
 import { ThrowError } from "@/components/throw-error";
 import useAxios from "@/hooks/useAxios";
@@ -25,13 +25,19 @@ export default function Calendar({ view, date, setView, setDate }: CalendarProps
             await deleteById(id, AxiosClientSide);
 
     }
+
+    const onAdd = async (recipe: string, type:string, date:string) => {
+        await create({date,type,recipe}, AxiosClientSide);
+
+    }
     const onCellClick = (day: number) => {
         const oldDate = date;
         setDate(new Date(oldDate.getFullYear(), oldDate.getMonth(), day));
         setView("day")
     }
-    const { loading, request: requestFunc, data, error } = useAsync<Record<string, MealPlanProps[]>>(onChange)
+    const { loading, request: requestFunc, data, error } = useAsync<Record<string, MealPlanProps[]>>(onChange, {onComplete:(d)=>{console.log(d)}})
     const { loading: deleteLoading, request: deleteRequest } = useAsync(onRemove, { onComplete: () => { refetch(view, date); }, onError: (err) => { alert(err) } })
+    const { loading: addLoading, request: addRequest } = useAsync(onAdd, { onComplete: () => { refetch(view, date); }, onError: (err) => { alert(err) } })
     const fmt = (date: Date) => (format(date, 'yyyy-MM-dd'));
     const request = useCallback(requestFunc, [view, date]);
     const refetch = useCallback((view: string, date: Date) => {
@@ -61,10 +67,10 @@ export default function Calendar({ view, date, setView, setDate }: CalendarProps
     return (
         <>
             {error && <ThrowError error={error} />}
-            <Card border={false} isLoading={loading || deleteLoading} loadingMessage={deleteLoading ? "Removing meal from plan" : undefined}>
+            <Card border={false} isLoading={loading || deleteLoading || addLoading} loadingMessage={deleteLoading ? "Removing meal from plan" : addLoading?"Adding meal to plan": undefined}>
                 <div className="overflow-auto" style={{ height: "65vh" }} >
                     {view === "month" && data && <MonthView onCellClick={onCellClick} date={new Date(date)} mealPlanLookup={data} />}
-                    {view === "day" && data && <DayView onRemove={deleteRequest} date={new Date(date)} mealPlanLookup={data} />}
+                    {view === "day" && data && <DayView onAdd={addRequest} onRemove={deleteRequest} date={new Date(date)} mealPlanLookup={data} />}
                     {view === "week" && data && <WeekView onCellClick={onCellClick} date={new Date(date)} mealPlanLookup={data} />}
                 </div>
             </Card>

@@ -2,7 +2,7 @@ import { createElement, ElementType, ReactNode } from "react";
 
 export interface ListProps<T extends ElementType> {
     as?: T;
-    children: ReactNode;
+    children?: ReactNode;
 }
 
 export function List<T extends React.ElementType = "ul">({ as, children }: ListProps<T>
