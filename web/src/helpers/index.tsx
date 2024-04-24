@@ -124,3 +124,15 @@ export const getViewDateRange = (date: Date, view: string) => {
     const year = date.getFullYear();
     return `${view === "day" ? day : ""} ${view === "week" ? `${weekStartDay} ${prevMonth} -  ${weekEndDay}` : ""} ${month}, ${year}`.trim();
 }
+
+export const getNutritionUnit = (t: string) => {
+    const type = t.toLowerCase();
+    if (type.includes("calories")) {
+        return "kcal";
+    }
+    if (type.includes("cholesterol") || type.includes("sodium")) {
+        return "mg";
+    }
+    if(type.includes("meals")) return "";
+    return "g"
+}

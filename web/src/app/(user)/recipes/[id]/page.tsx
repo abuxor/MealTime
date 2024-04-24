@@ -2,7 +2,7 @@ import { List, ListHeader, ListItem } from "@/components/list";
 import { Card, CardBody } from "@/components/card";
 import Image from "next/image";
 import { getByID } from '@/api/recipes';
-import { formatTimestamp, imgUrl } from "@/helpers";
+import { formatTimestamp, getNutritionUnit, imgUrl } from "@/helpers";
 import { InfoCard } from "@/components/card/InfoCard";
 import { RecipeResponse } from "@/api/recipes";
 import RecipeActions from "./RecipeActions";
@@ -13,16 +13,6 @@ import { addDays, format } from "date-fns";
 import { EmptyPlaceholder } from "@/components/empty-placeholder";
 import { notFound } from "next/navigation";
 import CollectionActions from "./CollectionActions";
-
-const unit = (type: string) => {
-    if (type.includes("calories")) {
-        return "kcal";
-    }
-    if (type.includes("cholesterol") || type.includes("sodium")) {
-        return "mg";
-    }
-    return "g"
-}
 
 export default async function Page({ params }: any) {
     const data: RecipeResponse = (await getByID(params.id)).data;
@@ -67,9 +57,9 @@ export default async function Page({ params }: any) {
                     <div className="col-span-3">
 
                         <div className="bg-gray-50 p-4 grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 border">
-                            <InfoCard name="Prep Time" value={data.prepTime} />
-                            <InfoCard name="Cook Time" value={data.cookTime} />
-                            <InfoCard name="Total Time" value={data.prepTime + data.cookTime} />
+                            <InfoCard name="Prep Time" value={data.prepTime + " mins"} />
+                            <InfoCard name="Cook Time" value={data.cookTime + " mins"} />
+                            <InfoCard name="Total Time" value={(data.prepTime + data.cookTime) + " mins"} />
                             <InfoCard name="Servings" value={data.servings} />
                         </div>
 
@@ -126,7 +116,7 @@ export default async function Page({ params }: any) {
                                         </ListHeader>
                                         {Object.entries(data.nutrition).map(([key, val]) => (
                                             <ListItem key={key}>
-                                                <p className="text-gray-800"><span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span> {val} {unit(key)}</p>
+                                                <p className="text-gray-800"><span className="font-medium capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span> {val} {getNutritionUnit(key)}</p>
                                             </ListItem>))}
                                     </List>
                                 </CardBody>
