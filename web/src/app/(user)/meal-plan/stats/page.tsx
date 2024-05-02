@@ -1,6 +1,6 @@
 "use client";
 import { Card, CardBody, CardHeader } from "@/components/card";
-import { getViewDateRange, getNutritionUnit } from "@/helpers";
+import { getViewDateRange, getNutritionUnit, truncateString } from "@/helpers";
 import { InfoCard } from "@/components/card/InfoCard";
 import {
   Chart as ChartJS,
@@ -12,6 +12,7 @@ import {
   BarElement,
   Title,
 } from "chart.js";
+import colorLib from "@kurkle/color";
 import autocolors from "chartjs-plugin-autocolors";
 import { Pie, Bar } from "react-chartjs-2";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -28,9 +29,10 @@ import {
   parse,
 } from "date-fns";
 import InsightDialog from "./InsightDialog";
+import { Banner, Chat } from "@/app/(user)/MealAI";
 import { EmptyPlaceholder } from "@/components/empty-placeholder";
-import { PieChartIcon } from "@/components/icons";
-
+import { PieChartIcon, SparklesIcon } from "@/components/icons";
+import { insightPrompt } from "./prompts";
 ChartJS.register(
   autocolors,
   ArcElement,
@@ -60,6 +62,24 @@ const EmptyData = (
     title="No data to display at this time"
   />
 );
+
+const autoColorsOptions = {
+  customize(context: any) {
+    const colors = context.colors;
+    return {
+      background: colorLib(colors.background).alpha(0.5).rgbString(),
+      border: colorLib(colors.border).alpha(0.1).rgbString(),
+    };
+  },
+  mode: "data",
+};
+
+const barChartOptions = {
+  borderRadius: 10,
+  plugins: {
+    autocolors: autoColorsOptions,
+  },
+};
 
 export default function Page({}: any) {
   const router = useRouter();
@@ -125,15 +145,19 @@ export default function Page({}: any) {
       <CardHeader title={title} textSize="3xl"></CardHeader>
       {data ? (
         <CardBody>
-          <Card className="mb-2">
-            <CardHeader
-              title="Meal-AI  - Insight Available!"
-              subtitle="Generate AI-Powered Insight from the Meal Plan Stat"
-              textSize="xl"
-            >
-              <InsightDialog data={{ view, date, ...data }} />
-            </CardHeader>
-          </Card>
+          <Banner
+            title="Insight Available!"
+            subtitle="Generate AI-Powered Insight from the Meal Plan Stat"
+          >
+            <Chat
+              builtInPrompts={[
+                {
+                  name: "Can you get me insight into my meal plan?",
+                  content: insightPrompt(data),
+                },
+              ]}
+            />
+          </Banner>
 
           {data.total ? (
             <Card fullHeight>
@@ -147,6 +171,7 @@ export default function Page({}: any) {
                 {Object.keys(data.total).map((k: any) => (
                   <InfoCard
                     name={k}
+                    key={k}
                     value={
                       ((data.total && data.total[k]) || 0) +
                       " " +
@@ -169,7 +194,7 @@ export default function Page({}: any) {
                   textSize="xl"
                 >
                   <select
-                    className="select select-bordered p-2"
+                    className="select p-2 border border-gray-300"
                     value={nutritionOption}
                     onChange={(e) => setNutritionOption(e.target.value)}
                   >
@@ -195,14 +220,12 @@ export default function Page({}: any) {
                       <Pie
                         options={{
                           plugins: {
-                            autocolors: {
-                              mode: "data",
-                            },
+                            autocolors: autoColorsOptions,
                           },
                         }}
                         data={{
                           labels: data.nutritionSumByRecipe.map(
-                            ({ recipe }: any) => recipe
+                            ({ recipe }: any) => truncateString(recipe)
                           ),
                           datasets: [
                             {
@@ -238,7 +261,7 @@ export default function Page({}: any) {
                   textSize="xl"
                 >
                   <select
-                    className="select select-bordered p-2"
+                    className="select p-2 border border-gray-300"
                     value={mealFreqOption}
                     onChange={(e) => setMealFreqOption(e.target.value)}
                   >
@@ -257,16 +280,10 @@ export default function Page({}: any) {
                   data.frequencyByMealType &&
                   data.frequencyByMealType.length > 0 ? (
                     <Bar
-                      options={{
-                        plugins: {
-                          autocolors: {
-                            mode: "data",
-                          },
-                        },
-                      }}
+                      options={barChartOptions}
                       data={{
-                        labels: data.frequencyByMealType.map(
-                          ({ mealType }) => mealType
+                        labels: data.frequencyByMealType.map(({ mealType }) =>
+                          truncateString(mealType)
                         ),
                         datasets: [
                           {
@@ -285,16 +302,10 @@ export default function Page({}: any) {
                   data.frequencyByRecipe &&
                   data.frequencyByRecipe.length > 0 ? (
                     <Bar
-                      options={{
-                        plugins: {
-                          autocolors: {
-                            mode: "data",
-                          },
-                        },
-                      }}
+                      options={barChartOptions}
                       data={{
-                        labels: data.frequencyByRecipe.map(
-                          ({ recipe }) => recipe
+                        labels: data.frequencyByRecipe.map(({ recipe }) =>
+                          truncateString(recipe)
                         ),
                         datasets: [
                           {

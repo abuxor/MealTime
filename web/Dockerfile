@@ -12,7 +12,7 @@ RUN \
   if [ -f yarn.lock ]; then yarn; \
   elif [ -f package-lock.json ]; then npm ci; \
   elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
-  else echo "Lockfile not found." && exit 1; \
+  else yarn; \
   fi
 
 FROM base AS dev

@@ -1,7 +1,7 @@
 "use client";
 import { CloseIcon, BulbIcon, FaceFrownIcon } from "@/components/icons";
 import useAxios from "@/hooks/useAxios";
-import Markdown from 'react-markdown'
+import Markdown from "react-markdown";
 import { generateInsight } from "@/api/mealPlan";
 import { useAsync } from "@/hooks/useAsync";
 import { Button, Dialog, Flex, IconButton } from "@radix-ui/themes";
@@ -78,9 +78,9 @@ export default function InsightDialog({ data }: InsightDialogProps) {
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger>
-        <Button variant="soft">
+        <Button  size="4">
           <BulbIcon />
-          AI Insight
+          Get Insight
         </Button>
       </Dialog.Trigger>
 
@@ -100,7 +100,7 @@ export default function InsightDialog({ data }: InsightDialogProps) {
 
         <Dialog.Description>
           <Card
-            className={loading ? "mt-10" :"mt-6"}
+            className={loading ? "mt-10" : "mt-6"}
             isLoading={loading}
             border={false}
             loadingMessage="Generating Insight for your meal plan...."
@@ -112,11 +112,9 @@ export default function InsightDialog({ data }: InsightDialogProps) {
                 subtitle={error}
               />
             )}
-              {res &&
-                res.insight &&
-                <Markdown className="prose">{res.insight}</Markdown>
-               }
-    
+            {res && res.insight && (
+              <Markdown className="prose">{res.insight}</Markdown>
+            )}
           </Card>
         </Dialog.Description>
       </Dialog.Content>
