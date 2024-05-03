@@ -12,7 +12,7 @@ export function InfoCard({ name, value }: InfoCardProps) {
                     <h3 className="text-gray-800">
                         {value}
                     </h3>
-                    <p className="font-semibold text-gray-800">{name}</p>
+                    <p className="font-semibold text-gray-800 capitalize">{name}</p>
 
                 </div>
             </div>

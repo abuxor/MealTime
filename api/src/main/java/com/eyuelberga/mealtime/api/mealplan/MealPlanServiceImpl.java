@@ -8,6 +8,14 @@ import com.eyuelberga.mealtime.api.recipe.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.http.MediaType;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
 
 import java.sql.Date;
 import java.util.List;
@@ -19,6 +27,9 @@ public class MealPlanServiceImpl implements MealPlanService {
     private final MealPlanRepository mealPlanRepository;
 
     private final RecipeService recipeService;
+
+     @Value("${services.mealplan-insight.endpoint}")
+    private String mealPlanInsightEndpoint;
 
     @Override
     public MealPlan create(MealPlan mealPlan) {
@@ -85,5 +96,25 @@ public class MealPlanServiceImpl implements MealPlanService {
                 .nutritionSumByRecipe(nutritionSumByRecipe)
                 .build();
 
+    }
+
+    @Override
+    public MealPlanInsight generateInsight(String prompt) {
+        Map<String, String> requestBody = new HashMap<>();
+        requestBody.put("prompt", prompt);
+        MealPlanInsight response = null;
+        try {
+            response = WebClient.create().post()
+                    .uri(new URI(mealPlanInsightEndpoint))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(requestBody))
+                    .retrieve()
+                    .bodyToMono(MealPlanInsight.class).share()
+                    .block();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        return response;
     }
 }

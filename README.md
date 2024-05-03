@@ -98,6 +98,13 @@ Contributions are welcome. If you'd like to contribute, please follow these step
 
 You can setup a development environment for Meal Time using `docker` and `docker-compose`.
 
+Before starting the development environment please make sure to set environment variables for all services:
+
+- api: set `env.properties` file on `/api/src/main/resources`
+- web: set `.env` file on `/web`
+
+You can refer to the `.example` files to understand what values need to be set.
+
 Change your current working directory to the root of the project and run the following command first:
 
 ```bash

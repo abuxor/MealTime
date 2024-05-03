@@ -26,3 +26,4 @@ export const mealTypeBgColor: Record<MealType, string> = {
 export * from "./MonthView";
 export * from "./DayView";
 export * from "./WeekView";
+export * from "./AddMealPopover";

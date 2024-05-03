@@ -5,14 +5,14 @@ import Link from "next/link"
 
 export default function Home() {
   return (<>
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0 dark:bg-gray-800 dark:border-gray-700">
+    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-3 sm:py-0">
       <nav
         className="relative max-w-7xl w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8"
         aria-label="Global"
       >
         <div className="flex items-center justify-between">
           <Link
-            className="flex-none text-xl font-semibold dark:text-white"
+            className="flex-none text-xl font-semibold"
             href="/"
             aria-label="Brand"
           >
@@ -25,7 +25,7 @@ export default function Home() {
           <div className="flex flex-col gap-y-4 gap-x-0 mt-5 sm:flex-row sm:items-center sm:justify-end sm:gap-y-0 sm:gap-x-7 sm:mt-0 sm:pl-7">
 
             <Link
-              className="flex items-center gap-x-2 font-medium text-gray-500 hover:text-rose-600 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-6 dark:border-gray-700 dark:text-gray-400 dark:hover:text-rose-500"
+              className="flex items-center gap-x-2 font-medium text-gray-500 hover:text-rose-600 sm:border-l sm:border-gray-300 sm:my-6 sm:pl-6"
               href="/dashboard"
             >
               <UserIcon />
@@ -41,17 +41,17 @@ export default function Home() {
       {/* Grid */}
       <div className="grid md:grid-cols-2 gap-4 md:gap-8 xl:gap-20 md:items-center">
         <div>
-          <h1 className="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight dark:text-white">
+          <h1 className="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight">
             Organize your meals with <span className="text-rose-600">Meal Time</span>
           </h1>
-          <p className="mt-3 text-lg text-gray-800 dark:text-gray-400">
+          <p className="mt-3 text-lg text-gray-800">
             A Recipe manager and meal planner application
           </p>
           {/* Buttons */}
           <div className="mt-7 grid gap-3 w-full sm:inline-flex">
             <Link
               prefetch={false}
-              className="inline-flex justify-center items-center gap-x-3 text-center bg-rose-600 hover:bg-rose-700 border border-transparent text-sm lg:text-base text-white font-medium focus:outline-none focus:ring-2 focus:ring-rose-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
+              className="inline-flex justify-center items-center gap-x-3 text-center bg-rose-600 hover:bg-rose-700 border border-transparent text-sm lg:text-base text-white font-medium focus:outline-none focus:ring-2 focus:ring-rose-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4"
               href="/dashboard"
             >
               Get started
@@ -97,12 +97,12 @@ export default function Home() {
             <div className="space-y-6 lg:space-y-10">
               {/* Icon Block */}
               <div className="flex">
-                <RecipeIcon className="flex-shrink-0 h-16 w-16 text-gray-800 dark:text-white" />
+                <RecipeIcon className="flex-shrink-0 h-16 w-16 text-gray-800" />
                 <div className="ml-5 sm:ml-8">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-800">
                     Create Recipes
                   </h3>
-                  <p className="mt-1 text-gray-600 dark:text-gray-400">
+                  <p className="mt-1 text-gray-600">
                     You can manage your recipes
                   </p>
                 </div>
@@ -111,12 +111,12 @@ export default function Home() {
 
               {/* Icon Block */}
               <div className="flex">
-                <CollectionIcon className="flex-shrink-0 h-16 w-16 text-gray-800 dark:text-white" />
+                <CollectionIcon className="flex-shrink-0 h-16 w-16 text-gray-800" />
                 <div className="ml-5 sm:ml-8">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-800">
                     Organize Recipes with Collections
                   </h3>
-                  <p className="mt-1 text-gray-600 dark:text-gray-400">
+                  <p className="mt-1 text-gray-600">
                     You can better organize your recipes by adding them to a collection
                   </p>
                 </div>
@@ -128,12 +128,12 @@ export default function Home() {
             <div className="space-y-6 lg:space-y-10">
               {/* Icon Block */}
               <div className="flex">
-                <CalendarIcon className="flex-shrink-0 h-16 w-16 text-gray-800 dark:text-white" />
+                <CalendarIcon className="flex-shrink-0 h-16 w-16 text-gray-800" />
                 <div className="ml-5 sm:ml-8">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-800">
                     Plan your Meals
                   </h3>
-                  <p className="mt-1 text-gray-600 dark:text-gray-400">
+                  <p className="mt-1 text-gray-600">
                     Plan your meals by adding recipes to the meal planner
                   </p>
                 </div>
@@ -142,12 +142,12 @@ export default function Home() {
 
               {/* Icon Block */}
               <div className="flex">
-                <StatsIcon className="flex-shrink-0 h-16 w-16 text-gray-800 dark:text-white" />
+                <StatsIcon className="flex-shrink-0 h-16 w-16 text-gray-800" />
                 <div className="ml-5 sm:ml-8">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-800">
                     Get Meal Plan Stats
                   </h3>
-                  <p className="mt-1 text-gray-600 dark:text-gray-400">
+                  <p className="mt-1 text-gray-600">
                     Get nutrition breakdown and meal plan analysis
                   </p>
                 </div>

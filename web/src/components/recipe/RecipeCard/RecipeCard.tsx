@@ -54,7 +54,7 @@ export function RecipeCard({ border, compact, bg, updatedAt, name, image, descri
       </div>
     </div>);
   return (
-    <Card border={border} shadow={shadow ? 'lg' : undefined} hoverShadow={shadow ? '2xl' : undefined}>
+    <Card className='my-1' border={border} shadow={shadow ? 'lg' : undefined} hoverShadow={shadow ? '2xl' : undefined}>
       {href ?
         <Link href={href}>
           {Content}

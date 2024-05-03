@@ -11,8 +11,8 @@ export interface CardProps {
   className?: string;
   border?: boolean;
 }
-export function Card({ children, hoverShadow, shadow, fullHeight, isLoading = false, border = true, loadingMessage = "Please wait...", className }: CardProps) {
-  return <div className={`relative ${fullHeight ? "h-full" : ""} bg-white ${shadow ? "shadow-" + shadow : ''} ${hoverShadow ? "hover:shadow-" + hoverShadow : ''} ${border ? "border" : ""} ${className}`}>
+export function Card({ children, hoverShadow, shadow, fullHeight, isLoading = false, border = true, loadingMessage = "Please wait...", className=" bg-white" }: CardProps) {
+  return <div className={`relative ${fullHeight ? "h-full" : ""}  ${shadow ? "shadow-" + shadow : ''} ${hoverShadow ? "hover:shadow-" + hoverShadow : ''} ${border ? "border" : ""} ${className}`}>
     {isLoading && <div className="absolute bg-white backdrop-blur bg-opacity-60 z-10 h-full w-full flex items-center justify-center">
       <div className="flex flex-col  items-center">
         <svg

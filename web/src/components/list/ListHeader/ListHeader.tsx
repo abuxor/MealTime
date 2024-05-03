@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export interface ListHeaderProps {
-    children: ReactNode
+    children?: ReactNode
 }
 
 export function ListHeader({ children }: ListHeaderProps) {

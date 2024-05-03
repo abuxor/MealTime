@@ -3,7 +3,6 @@ import { ArrowRightIcon } from '@/components/icons';
 import { RecipeCard } from '@/components/recipe';
 import { Button } from "@radix-ui/themes";
 import { List, ListItem, ListHeader } from "@/components/list";
-import { ReactNode } from 'react';
 import Link from 'next/link';
 import { getServerSession } from "next-auth"
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
@@ -11,15 +10,11 @@ import { CollectionResponse, getAll as getAllCollections } from '@/api/collectio
 import { getAll as getAllRecipes, RecipeResponse } from '@/api/recipes';
 import { lookup as getMealPlan } from '@/api/mealPlan';
 import { PaginatedResponse } from '@/api/response';
-import { imgUrl, timeOfDayWelcome } from '@/helpers';
-import { format } from 'date-fns';
-import { DayView } from '@/components/calendar';
-import { EmptyPlaceholder } from "@/components/empty-placeholder";
-import { CalendarIcon, CollectionIcon, RecipeIcon } from '@/components/icons';
-function Banner({ children }: { children: ReactNode }) {
-  return <header className="text-sm uppercase text-slate-500 bg-slate-50 rounded-sm font-semibold p-4">{children}</header>
-}
+import { imgUrl} from '@/helpers';
 
+import { EmptyPlaceholder } from "@/components/empty-placeholder";
+import {  CollectionIcon, RecipeIcon } from '@/components/icons';
+import MealPlanToday from './MealPlanToday';
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
@@ -31,33 +26,10 @@ export default async function Dashboard() {
 
   return (
     <>
-      <div className="relative p-4 sm:p-6 overflow-hidden mb-2">
-        <div className="relative">
-          <h1 className="text-2xl md:text-3xl text-slate-800 font-bold mb-1"> 👋 {timeOfDayWelcome()}, {session?.user?.name}!</h1>
-        </div>
-      </div>
+    <MealPlanToday session={session} mealPlans={mealPlans}/>
 
       <div className="grid grid-cols-12 gap-6">
-        <div className="col-span-full">
-          <Card shadow="lg">
-            <CardHeader title="From your Weekly Meal Plan">
-              <Button asChild variant='ghost'>
-                <Link href="/meal-plan">Go to Meal Plan<ArrowRightIcon className='w-4 h-4' />  </Link>
-              </Button>
-            </CardHeader>
-            <CardBody padding='sm'>
-              <Banner>
-                Today on {format(today, 'yyyy-MM-dd')}
-              </Banner>
-              <div className='h-auto sm:h-96 overflow-auto'>
-
-                {mealPlans && mealPlans[format(today, 'yyyy-MM-dd')] ?
-                  <DayView noHeader date={today} mealPlanLookup={mealPlans} />
-                  : <EmptyPlaceholder image={<CalendarIcon className="w-32 h-32 text-rose-200" />} title="Nothing Here!" subtitle="You have not added any meal plans for today" cta='Add Meal Plan' href="/meal-plan/create" />}
-              </div>
-            </CardBody>
-          </Card>
-        </div>
+       
         <div className="col-span-full xl:col-span-4">
 
           {recentCollections && recentCollections.items && <Card className='h-full' shadow='lg'>
@@ -71,7 +43,7 @@ export default async function Dashboard() {
                     <div className="shrink-0 self-end ml-2">
                       <Button variant='ghost' asChild>
                         <Link href="/collections">View All <ArrowRightIcon className='w-4 h-4' /></Link>
-                        </Button>
+                      </Button>
                     </div>
                   </>
                 </ListHeader>
@@ -83,7 +55,7 @@ export default async function Dashboard() {
                     </Button>
                   </ListItem>))
                   :
-                  <EmptyPlaceholder image={<CollectionIcon className="w-32 h-32 text-rose-200" />} title="No Collections!" cta='Create Collection' href="/collections/create" />
+                  <EmptyPlaceholder image={<CollectionIcon className="w-32 h-32 text-rose-200" />} title="No collections created!" subtitle='You can organize your recipes using collections. Create one to get started!' cta='Create Collection' href="/collections/create" />
                 }
 
               </List>
@@ -96,7 +68,7 @@ export default async function Dashboard() {
             <CardHeader title="Recently Added Recipes">
               <Button asChild variant='ghost'>
                 <Link href="/recipes">View All <ArrowRightIcon className='w-4 h-4' /></Link>
-                </Button>
+              </Button>
             </CardHeader>
             <CardBody padding='sm'>
 

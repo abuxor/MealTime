@@ -1,6 +1,7 @@
 package com.eyuelberga.mealtime.api.mealplan;
 
 import com.eyuelberga.mealtime.api.mealplan.dto.request.MealPlanRequest;
+import com.eyuelberga.mealtime.api.mealplan.dto.request.MealPlanInsightRequest;
 import com.eyuelberga.mealtime.api.mealplan.dto.response.MealPlanStatsResponse;
 import com.eyuelberga.mealtime.api.mealplan.dto.response.MealPlanWithRecipeResponse;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +59,12 @@ public class MealPlanController {
         MealPlan mealPlan = modelMapper.map(mealPlanRequest, MealPlan.class);
         mealPlan.setId(id);
         return new ResponseEntity<>(modelMapper.map(mealPlanService.update(mealPlan, mealPlanRequest.getRecipe()), MealPlanWithRecipeResponse.class), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/insight")
+    public ResponseEntity<MealPlanInsight> generateInsight(@RequestBody MealPlanInsightRequest mealPlanInsightRequest) {
+        return new ResponseEntity<>(mealPlanService.generateInsight(mealPlanInsightRequest.getPrompt()), HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{id}")
